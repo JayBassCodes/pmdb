@@ -15,4 +15,4 @@ The project is done when I can save movie titles to a client side storage and re
 The project is done when I can search for reviews for any given movie using a reputable review site
 
 
-## Project by Josia, Kevin, Fernando, and Jacob
+## Project by Josiah, Kevin, Fernando, and Jacob
