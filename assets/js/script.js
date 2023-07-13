@@ -12,6 +12,13 @@ function handleFormSubmit(event) {
     $.get('http://www.omdbapi.com/?apikey=84baf138&t=' + titleInput, function(data){
         console.log(data);
         console.log(data.Title)       
+        console.log(data.Year)
+        console.log(data.Poster)
+
+        // change to array of objects when available to do so with stringify
+        localStorage.setItem("title", data.Title)
+        localStorage.setItem("year", data.Year)
+        localStorage.setItem("poster", data.Poster)
     })
 }
 
