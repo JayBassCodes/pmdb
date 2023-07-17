@@ -14,29 +14,27 @@ function handleFormSubmit(event) {
         console.log(data.Title)
         console.log(data.Year)
         console.log(data.Poster)
-    // change to one array being saved with objects with title, year, and poster values inside
+        // change to one array being saved with objects with title, year, and poster values inside
         movieStorageFunction(data)
 
     })
     function movieStorageFunction(data) {
 
-        var titleStorage = localStorage.getItem("movies")
-    
-        if (titleStorage === null) {
-            titleStorage = [];
-        } else {
-            titleStorage = JSON.parse(titleStorage)
-           
+        var titleStorage = JSON.parse(localStorage.getItem("movie")) || [];
+        var newMovie = {
+            title:data.Title,
+            year:data.Year,
+            poster:data.Poster
         }
-        titleStorage.push(data.Title)
-        
+
+        titleStorage.push(newMovie)
 
 
-        var newTitle = JSON.stringify(titleStorage)
-      
 
-        localStorage.setItem("title", newTitle)
-       
+
+
+        localStorage.setItem("movie", JSON.stringify(titleStorage))
+
     }
 
 }
