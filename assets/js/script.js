@@ -7,20 +7,39 @@ var apiKey = 'YEBouhN5RukCyERPNcZSdTGb6K5fRKkf1rR0QbE8';
 var endpoint = 'https://api.watchmode.com/endpoint';
 
 function checkStream(id) {
-    $.get(`https://api.watchmode.com/v1/title/${id}/sources/?apiKey=${apiKey}`)
-      .then(response => response.json())
-      .then(data => {
+    fetch(`https://api.watchmode.com/v1/title/${id}/sources/?apiKey=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
         // Handle the response data
-        console.log(data);
-      })
-      .catch(error => {
+      var uniqueData = removeDuplicates(data);
+        console.log(uniqueData);
+    })
+    .catch(error => {
         // Handle any errors
         console.error(error);
-      });
+    });
     
-}
+    function removeDuplicates(data) {
+        let unique = [];
+        data.forEach(element => {
+           let found = unique.find(uniqueElement =>{
+                if (element.source_id == uniqueElement.source_id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            console.log(found)
+            if (found == undefined){
+                unique.push(element)
+            }
 
-
+        });
+        return unique;
+    }
+      }
+    
+    
 function handleFormSubmit(event) {
 
     event.preventDefault();
