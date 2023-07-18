@@ -53,7 +53,8 @@ function handleFormSubmit(event) {
         console.log(data.Poster)
         // change to one array being saved with objects with title, year, and poster values inside
         movieStorageFunction(data)
-        checkStream(data.imdbID)
+      checkStream(data.imdbID)
+
 
     })
     function movieStorageFunction(data) {
@@ -62,8 +63,12 @@ function handleFormSubmit(event) {
         var newMovie = {
             title:data.Title,
             year:data.Year,
+
             poster:data.Poster,
             id:data.imdbID
+
+            poster:data.Poster
+
         }
 
         titleStorage.push(newMovie)
@@ -80,3 +85,28 @@ function handleFormSubmit(event) {
 
 
 form.on('submit', handleFormSubmit)
+
+
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("slideshow");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+  }
+  
