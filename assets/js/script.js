@@ -8,37 +8,37 @@ var endpoint = 'https://api.watchmode.com/endpoint';
 
 function checkStream(id) {
     fetch(`https://api.watchmode.com/v1/title/${id}/sources/?apiKey=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response data
-      var uniqueData = removeDuplicates(data);
-        console.log(uniqueData);
-    })
-    .catch(error => {
-        // Handle any errors
-        console.error(error);
-    });
-    
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data
+            var uniqueData = removeDuplicates(data);
+            console.log(uniqueData);
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error(error);
+        });
+
     function removeDuplicates(data) {
         let unique = [];
         data.forEach(element => {
-           let found = unique.find(uniqueElement =>{
+            let found = unique.find(uniqueElement => {
                 if (element.source_id == uniqueElement.source_id) {
                     return true;
                 } else {
                     return false;
                 }
             })
-            if (found == undefined){
+            if (found == undefined) {
                 unique.push(element)
             }
 
         });
         return unique;
     }
-      }
-    
-    
+}
+
+
 function handleFormSubmit(event) {
 
     event.preventDefault();
@@ -52,7 +52,7 @@ function handleFormSubmit(event) {
         console.log(data.Poster)
         // change to one array being saved with objects with title, year, and poster values inside
         movieStorageFunction(data)
-      checkStream(data.imdbID)
+        checkStream(data.imdbID)
 
 
     })
@@ -60,10 +60,10 @@ function handleFormSubmit(event) {
 
         var titleStorage = JSON.parse(localStorage.getItem("movie")) || [];
         var newMovie = {
-            title:data.Title,
-            year:data.Year,
-            poster:data.Poster,
-            id:data.imdbID
+            title: data.Title,
+            year: data.Year,
+            poster: data.Poster,
+            id: data.imdbID
         }
 
         titleStorage.push(newMovie)
@@ -82,71 +82,76 @@ function handleFormSubmit(event) {
 form.on('submit', handleFormSubmit)
 
 
-let slideIndex = 1;
+let slideIndex = 0;
 showSlides(slideIndex);
 
 function plusSlides(n) {
     showSlides(slideIndex += n);
 }
 
-// variable for pulling data from local storage
-var slideTitle = JSON.parse(localStorage.getItem("movie"));
-console.log(slideTitle)
-
+// // variable for pulling data from local storage
+var movieStorage = JSON.parse(localStorage.getItem("movie")) || [];
 
 
 function showSlides(n) {
     let i;
     let slides = document.getElementsByClassName("slideshow");
     let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
     for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
+        slides[i].style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
+        dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
 }
 
 function createSlides(data) {
-    slidesData = data;
-    slidesData.forEach((item) => {
-    const slide = document.createElement('div');
-    slide.classList.add('slide');
-    slide.innerHTML = `
-        <h2>${item.title}</h2>
-        <img src="${item.image}" alt="${item.title}">
-    `;
-    slideshowContainer.appendChild(slide);
+    console.log("create slides fired")
+    console.log(data)
+    var slideshowContainer = document.querySelector(".slideshow")
+    console.log(slideshowContainer)
+    data.forEach((item) => {
+        var slide = document.createElement('div');
+        slide.classList.add('slide');
+        var slideHeader = document.createElement('h2');
+        slideHeader.textContent = item.title
+        var slideImage = document.createElement('img');
+        slideImage.setAttribute('src', item.poster);
+        console.log(slideImage)
+        slide.appendChild(slideHeader)
+        slide.appendChild(slideImage)
+        slideshowContainer.appendChild(slide)
+        
     });
-}
+ }
 
 function showSlide(index) {
     const slides = document.querySelectorAll('.slide');
     slides.forEach((slide, i) => {
-    slide.style.display = i === index ? 'block' : 'none';
+        slide.style.display = i === index ? 'block' : 'none';
     });
 }
 
 function nextSlide() {
-    currentSlideIndex = (currentSlideIndex + 1) % slidesData.length;
+    var currentSlideIndex = (currentSlideIndex + 1) % movieStorage.length;
     showSlide(currentSlideIndex);
 }
 
 function previousSlide() {
-    currentSlideIndex = (currentSlideIndex - 1 + slidesData.length) % slidesData.length;
+    var currentSlideIndex = (currentSlideIndex - 1 + movieStorage.length) % movieStorage.length;
     showSlide(currentSlideIndex);
 }
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const data = await fetchData(slidesData);
-    createSlides(data);
-    showSlide(currentSlideIndex);
-    setInterval(nextSlide, 5000);
+    const data = JSON.parse(localStorage.getItem("movie")) || []
+    await createSlides(data);
+    await showSlide(0);
+    //setInterval(nextSlide, 5000);
 });
 
-  
+
