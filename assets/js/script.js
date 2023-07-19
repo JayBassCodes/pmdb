@@ -85,7 +85,7 @@ form.on('submit', handleFormSubmit)
 let slideIndex = 0;
 showSlides(slideIndex);
 
-function plusSlides(n) {
+function plusSlides(n) {``
     showSlides(slideIndex += n);
 }
 
