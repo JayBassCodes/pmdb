@@ -108,5 +108,46 @@ function showSlides(n) {
     }
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
+
+}
+
+function createSlides(data) {
+    slidesData = data;
+    slidesData.forEach((item) => {
+    const slide = document.createElement('div');
+    slide.classList.add('slide');
+    slide.innerHTML = `
+        <h2>${item.title}</h2>
+        <img src="${item.image}" alt="${item.title}">
+    `;
+    slideshowContainer.appendChild(slide);
+    });
+}
+
+function showSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach((slide, i) => {
+    slide.style.display = i === index ? 'block' : 'none';
+    });
+}
+
+function nextSlide() {
+    currentSlideIndex = (currentSlideIndex + 1) % slidesData.length;
+    showSlide(currentSlideIndex);
+}
+
+function previousSlide() {
+    currentSlideIndex = (currentSlideIndex - 1 + slidesData.length) % slidesData.length;
+    showSlide(currentSlideIndex);
+}
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchData();
+    createSlides(data);
+    showSlide(currentSlideIndex);
+    setInterval(nextSlide, 5000);
+});
+
   }
-  
+

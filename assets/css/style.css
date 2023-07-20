@@ -122,7 +122,8 @@ footer {
 }
 
 .movie-title{
-  color: #2100f9;
+  background: #000000;
+  color: #ffffff;
   font-size: 25px;
   padding: 8px 12px;
   position: absolute;
@@ -133,7 +134,7 @@ footer {
 
 .year{
   color: #f2f2f2;
-  font-size: 15px;
+  font-size: 25px;
   padding: 8px 12px;
   position: absolute;
   bottom: 8px;
@@ -164,4 +165,11 @@ footer {
 @keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
+}
+
+.slide-display{
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
 }
