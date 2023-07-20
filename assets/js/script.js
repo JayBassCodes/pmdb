@@ -85,7 +85,8 @@ form.on('submit', handleFormSubmit)
 let slideIndex = 0;
 showSlides(slideIndex);
 
-function plusSlides(n) {``
+function plusSlides(n) {
+    ``
     showSlides(slideIndex += n);
 }
 
@@ -114,20 +115,24 @@ function createSlides(data) {
     console.log(data)
     var slideshowContainer = document.querySelector(".slideshow")
     console.log(slideshowContainer)
-    data.forEach((item) => {
+    data.forEach((movieStorage) => {
+
         var slide = document.createElement('div');
         slide.classList.add('slide');
+
         var slideHeader = document.createElement('h2');
-        slideHeader.textContent = item.title
+        slideHeader.textContent = movieStorage.title
+
         var slideImage = document.createElement('img');
-        slideImage.setAttribute('src', item.poster);
+        slideImage.setAttribute('src', movieStorage.poster);
         console.log(slideImage)
+
         slide.appendChild(slideHeader)
         slide.appendChild(slideImage)
         slideshowContainer.appendChild(slide)
-        
+
     });
- }
+}
 
 function showSlide(index) {
     const slides = document.querySelectorAll('.slide');
