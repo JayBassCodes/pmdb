@@ -106,9 +106,12 @@ function showSlides(n) {
     for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-}
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+
+  }
+  
+
 
 function createSlides(data) {
     console.log("create slides fired")
@@ -158,5 +161,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     await showSlide(0);
     //setInterval(nextSlide, 5000);
 });
-
 
