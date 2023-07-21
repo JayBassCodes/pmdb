@@ -35,6 +35,7 @@ function checkStream(id) {
 
         });
         return unique;
+
     }
 }
 
@@ -47,9 +48,9 @@ function handleFormSubmit(event) {
     console.log(titleInput)
     $.get('http://www.omdbapi.com/?apikey=84baf138&t=' + titleInput, function (data) {
         console.log(data);
-        console.log(data.Title)
-        console.log(data.Year)
-        console.log(data.Poster)
+        // console.log(data.Title)
+        // console.log(data.Year)
+        // console.log(data.Poster)
         // change to one array being saved with objects with title, year, and poster values inside
         movieStorageFunction(data)
         checkStream(data.imdbID)
@@ -82,83 +83,96 @@ function handleFormSubmit(event) {
 form.on('submit', handleFormSubmit)
 
 
-let slideIndex = 0;
-showSlides(slideIndex);
+// let slideIndex = 0;
+// showSlides(slideIndex);
 
-function plusSlides(n) {
-    ``
-    showSlides(slideIndex += n);
-}
+// function plusSlides(n) {
+//     ``
+//     showSlides(slideIndex += n);
+// }
 
 // // variable for pulling data from local storage
 var movieStorage = JSON.parse(localStorage.getItem("movie")) || [];
 
 
-function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("slideshow");
-    let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
+// function showSlides(n) {
+//     let i;
+//     let slides = document.getElementsByClassName("slideshow");
+//     let dots = document.getElementsByClassName("dot");
+//     if (n > slides.length) { slideIndex = 1 }
+//     if (n < 1) { slideIndex = slides.length }
+//     for (i = 0; i < slides.length; i++) {
+//         slides[i].style.display = "none";
+//     }
+//     for (i = 0; i < dots.length; i++) {
+//         dots[i].className = dots[i].className.replace(" active", "");
+//     }
+//     slides[slideIndex-1].style.display = "block";
+//     dots[slideIndex-1].className += " active";
 
-  }
-  
+//   }
+
 
 
 function createSlides(data) {
-    console.log("create slides fired")
-    console.log(data)
-    var slideshowContainer = document.querySelector(".slideshow")
-    console.log(slideshowContainer)
-    data.forEach((movieStorage) => {
+    console.log("create slides fired");
+    console.log(movieStorage);
+    console.log(movieStorage.length);
+    var slideshowContainer = document.querySelector("#carousel-container");
+    console.log(slideshowContainer);
+
+    for (let index = 0; index < movieStorage.length; index++) {
 
         var slide = document.createElement('div');
-        slide.classList.add('slide');
-
-        var slideHeader = document.createElement('h2');
-        slideHeader.textContent = movieStorage.title
+        slide.classList.add('carousel-item');
 
         var slideImage = document.createElement('img');
-        slideImage.setAttribute('src', movieStorage.poster);
-        console.log(slideImage)
+        slideImage.setAttribute('src', movieStorage[index].poster);
+        console.log(slideImage);
 
-        slide.appendChild(slideHeader)
-        slide.appendChild(slideImage)
-        slideshowContainer.appendChild(slide)
+        var slideHeader = document.createElement('div');
+        slideHeader.classList.add('carousel-caption', 'd-none', 'd-md-block');
+        slideHeader.textContent = movieStorage[index].title
+        console.log(slideHeader);
 
-    });
-}
+        // fix this!!!!!!!!!!!!
+        var slideServer = document.createElement('p')
+        slideServer.textContent = "server placeholder"
+        //
 
-function showSlide(index) {
-    const slides = document.querySelectorAll('.slide');
-    slides.forEach((slide, i) => {
-        slide.style.display = i === index ? 'block' : 'none';
-    });
-}
+        slide.appendChild(slideHeader);
+        slide.appendChild(slideImage);
+        slideshowContainer.appendChild(slide);
+    }
 
-function nextSlide() {
-    var currentSlideIndex = (currentSlideIndex + 1) % movieStorage.length;
-    showSlide(currentSlideIndex);
-}
 
-function previousSlide() {
-    var currentSlideIndex = (currentSlideIndex - 1 + movieStorage.length) % movieStorage.length;
-    showSlide(currentSlideIndex);
-}
+};
+
+
+// function showSlide(index) {
+//     const slides = document.querySelectorAll('.slide');
+//     slides.forEach((slide, i) => {
+//         slide.style.display = i === index ? 'block' : 'none';
+//     });
+// }
+
+// function nextSlide() {
+//     var currentSlideIndex = (currentSlideIndex + 1) % movieStorage.length;
+//     showSlide(currentSlideIndex);
+// }
+
+// function previousSlide() {
+//     var currentSlideIndex = (currentSlideIndex - 1 + movieStorage.length) % movieStorage.length;
+//     showSlide(currentSlideIndex);
+// }
 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const data = JSON.parse(localStorage.getItem("movie")) || []
     await createSlides(data);
-    await showSlide(0);
+    //await showSlide(0);
     //setInterval(nextSlide, 5000);
 });
+
+createSlides();
 
