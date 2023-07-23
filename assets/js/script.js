@@ -54,11 +54,11 @@ function handleFormSubmit(event) {
         // change to one array being saved with objects with title, year, and poster values inside
         movieStorageFunction(data)
         checkStream(data.imdbID)
-
-
+        
+        
     })
     function movieStorageFunction(data) {
-
+        
         var titleStorage = JSON.parse(localStorage.getItem("movie")) || [];
         var newMovie = {
             title: data.Title,
@@ -66,14 +66,15 @@ function handleFormSubmit(event) {
             poster: data.Poster,
             id: data.imdbID
         }
-
+        
         titleStorage.push(newMovie)
-
-
-
-
-
+        
+        
+        
+        
+        
         localStorage.setItem("movie", JSON.stringify(titleStorage))
+        createSlides()
 
     }
 
@@ -114,34 +115,41 @@ var movieStorage = JSON.parse(localStorage.getItem("movie")) || [];
 
 
 
-function createSlides(data) {
+function createSlides() {
     console.log("create slides fired");
     console.log(movieStorage);
     console.log(movieStorage.length);
-    var slideshowContainer = document.querySelector("#carousel-container");
+    var slideshowContainer = document.querySelector(".carousel-inner");
     console.log(slideshowContainer);
 
-    for (let index = 0; index < movieStorage.length; index++) {
+    for (var index = 0; index < movieStorage.length; index++) {
 
         var slide = document.createElement('div');
-        slide.classList.add('carousel-item');
+        if (index === 0) {
+            slide.classList.add('carousel-item', 'active');
+
+        } else {
+            slide.classList.add('carousel-item');
+        }
+
 
         var slideImage = document.createElement('img');
         slideImage.setAttribute('src', movieStorage[index].poster);
         console.log(slideImage);
 
-        var slideHeader = document.createElement('div');
-        slideHeader.classList.add('carousel-caption', 'd-none', 'd-md-block');
+        var slideBody = document.createElement('div');
+        slideBody.classList.add('carousel-caption', 'd-none', 'd-md-block');
+        var slideHeader = document.createElement('h5');
         slideHeader.textContent = movieStorage[index].title
-        console.log(slideHeader);
 
         // fix this!!!!!!!!!!!!
-        var slideServer = document.createElement('p')
-        slideServer.textContent = "server placeholder"
+        // var slideServer = document.createElement('p')
+        // slideServer.textContent = "server placeholder"
         //
 
-        slide.appendChild(slideHeader);
+        slideBody.appendChild(slideHeader);
         slide.appendChild(slideImage);
+        slide.appendChild(slideBody);
         slideshowContainer.appendChild(slide);
     }
 
@@ -169,7 +177,7 @@ function createSlides(data) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const data = JSON.parse(localStorage.getItem("movie")) || []
-    await createSlides(data);
+    //await createSlides(data);
     //await showSlide(0);
     //setInterval(nextSlide, 5000);
 });
