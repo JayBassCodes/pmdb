@@ -46,7 +46,7 @@ function handleFormSubmit(event) {
     var titleInput = title.val()
     // this will be the title of the movie searched
     console.log(titleInput)
-    $.get('https://www.omdbapi.com/?apikey=84baf138&t=' + titleInput, function (data) {
+   fetch('https://www.omdbapi.com/?apikey=84baf138&t=' + titleInput, function (data) {
         console.log(data);
         // console.log(data.Title)
         // console.log(data.Year)
